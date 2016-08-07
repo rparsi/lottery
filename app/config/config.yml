@@ -94,7 +94,7 @@ fos_user:
         confirmation:
             enabled: true
             from_email:
-                address: 'registration@inventory-system.com'
+                address: 'registration@rahi.lottery.com'
                 sender_name: 'customer.service'
         form:
             type: Rahi\ApiBundle\Form\RegistrationType
