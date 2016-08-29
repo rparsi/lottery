@@ -13,6 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
 use Rahi\ApiBundle\Entity\AbstractEntity;
 use Rahi\ApiBundle\Entity\IdTrait;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Class CompanyTree
@@ -29,9 +30,12 @@ class CompanyTree extends AbstractEntity
 
     /**
      * @var string
-     * @ORM\Column(type="string", length=100, name="name_")
-     *
-     * @JMS\Expose
+     * @ORM\Column(type="string", length=100, name="name_", unique=true)
+     * @Assert\NotBlank()
+     * @Assert\Length(
+     *     min=3,
+     *     max=100
+     * )
      */
     protected $name;
 
@@ -63,9 +67,25 @@ class CompanyTree extends AbstractEntity
      * @var integer
      *
      * @ORM\Column(type="integer", options={"unsigned": true, "default": 1})
-     * @JMS\Expose
+     * @Assert\Type(
+     *     type="integer"
+     * )
+     * @Assert\GreaterThan(
+     *     value = 0
+     * )
      */
     protected $level;
+
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name)
+    {
+        $this->name = $name;
+        return $this;
+    }
 
     /**
      * @return Company
@@ -118,6 +138,17 @@ class CompanyTree extends AbstractEntity
     public function setChildCompany(Company $childCompany)
     {
         $this->childCompany = $childCompany;
+        return $this;
+    }
+
+    public function getLevel()
+    {
+        return $this->level;
+    }
+
+    public function setLevel(int $level)
+    {
+        $this->level = $level;
         return $this;
     }
 }

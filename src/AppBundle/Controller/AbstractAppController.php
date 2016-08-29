@@ -47,7 +47,7 @@ abstract class AbstractAppController extends Controller
     }
 
     /**
-     * @return \Doctrine\ORM\EntityManager
+     * @return \Doctrine\Common\Persistence\ObjectManager|object
      */
     public function getEntityManager()
     {

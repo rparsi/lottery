@@ -14,6 +14,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Rahi\ApiBundle\Entity\AbstractEntity;
 use Rahi\ApiBundle\Entity\IdTrait;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="Rahi\ApiBundle\Entity\Repository\Locale\CountryRepository")
@@ -30,9 +31,12 @@ class Country extends AbstractEntity
 
     /**
      * @var string
-     * @ORM\Column(type="string", length=100, name="name_")
-     *
-     * @JMS\Expose
+     * @ORM\Column(type="string", length=100, name="name_", unique=true)
+     * @Assert\NotBlank()
+     * @Assert\Length(
+     *     min=3,
+     *     max=100
+     * )
      */
     protected $name;
 
@@ -40,40 +44,43 @@ class Country extends AbstractEntity
      * Refer to https://en.wikipedia.org/wiki/ISO_3166-1#Current_codes
      * @var string
      * @ORM\Column(type="string", length=5)
-     *
-     * @JMS\Expose
+     * @Assert\NotBlank()
+     * @Assert\Length(
+     *     min=1,
+     *     max=5
+     * )
      */
     protected $alpha2Code;
 
     /**
      * @var string
      * @ORM\Column(type="string", length=5)
-     *
-     * @JMS\Expose
+     * @Assert\NotBlank()
+     * @Assert\Length(
+     *     min=1,
+     *     max=5
+     * )
      */
     protected $alpha3Code;
 
     /**
      * @var string
      * @ORM\Column(type="smallint", options={"unsigned": true})
-     *
-     * @JMS\Expose
+     * @Assert\Type(
+     *     type="integer"
+     * )
      */
     protected $numericCode;
 
     /**
      * @var ArrayCollection
      * @ORM\OneToMany(targetEntity="Province", mappedBy="country", indexBy="id")
-     *
-     * @JMS\Expose
      */
     protected $provinces;
 
     /**
      * @var ArrayCollection
      * @ORM\OneToMany(targetEntity="Locale", mappedBy="country", indexBy="id")
-     *
-     * @JMS\Expose
      */
     protected $locales;
 
@@ -81,6 +88,17 @@ class Country extends AbstractEntity
     {
         $this->provinces = new ArrayCollection();
         $this->locales = new ArrayCollection();
+    }
+
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name)
+    {
+        $this->name = $name;
+        return $this;
     }
 
     public function addProvince(Province $province)

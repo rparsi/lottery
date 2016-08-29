@@ -17,6 +17,7 @@ use Rahi\ApiBundle\Entity\IdTrait;
 use Rahi\ApiBundle\Entity\Locale\Country;
 use Rahi\ApiBundle\Entity\Locale\Province;
 use Rahi\ApiBundle\Entity\Locale\City;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="Rahi\ApiBundle\Entity\Repository\Locale\Region\RegionItemRepository")
@@ -33,9 +34,12 @@ class RegionItem extends AbstractEntity
 
     /**
      * @var string
-     * @ORM\Column(type="string", length=100, name="name_")
-     *
-     * @JMS\Expose
+     * @ORM\Column(type="string", length=100, name="name_", unique=true)
+     * @Assert\NotBlank()
+     * @Assert\Length(
+     *     min=3,
+     *     max=100
+     * )
      */
     protected $name;
 
@@ -43,8 +47,6 @@ class RegionItem extends AbstractEntity
      * @var Region
      * @ORM\ManyToOne(targetEntity="Region", inversedBy="items")
      * @ORM\JoinColumn(name="parent_region_id", referencedColumnName="id", nullable=false)
-     *
-     * @JMS\Expose
      */
     protected $parentRegion;
 
@@ -52,8 +54,6 @@ class RegionItem extends AbstractEntity
      * @var RegionItemType
      * @ORM\ManyToOne(targetEntity="RegionItemType")
      * @ORM\JoinColumn(name="type_id", referencedColumnName="id", nullable=false)
-     *
-     * @JMS\Expose
      */
     protected $type;
 
@@ -61,8 +61,6 @@ class RegionItem extends AbstractEntity
      * @var Country
      * @ORM\ManyToOne(targetEntity="Rahi\ApiBundle\Entity\Locale\Country")
      * @ORM\JoinColumn(name="country_id", referencedColumnName="id", nullable=true)
-     *
-     * @JMS\Expose
      */
     protected $country;
 
@@ -70,8 +68,6 @@ class RegionItem extends AbstractEntity
      * @var Province
      * @ORM\ManyToOne(targetEntity="Rahi\ApiBundle\Entity\Locale\Province")
      * @ORM\JoinColumn(name="province_id", referencedColumnName="id", nullable=true)
-     *
-     * @JMS\Expose
      */
     protected $province;
 
@@ -79,8 +75,6 @@ class RegionItem extends AbstractEntity
      * @var City
      * @ORM\ManyToOne(targetEntity="Rahi\ApiBundle\Entity\Locale\City")
      * @ORM\JoinColumn(name="city_id", referencedColumnName="id", nullable=true)
-     *
-     * @JMS\Expose
      */
     protected $city;
 
@@ -88,18 +82,28 @@ class RegionItem extends AbstractEntity
      * @var Region
      * @ORM\ManyToOne(targetEntity="Region")
      * @ORM\JoinColumn(name="region_id", referencedColumnName="id", nullable=true)
-     *
-     * @JMS\Expose
      */
     protected $region;
 
     /**
      * @var boolean
      * @ORM\Column(type="boolean", options={"default": true})
-     *
-     * @JMS\Expose
+     * @Assert\Type(
+     *     type="bool"
+     * )
      */
     protected $inheritsChildren;
+
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name)
+    {
+        $this->name = $name;
+        return $this;
+    }
 
     public function setParentRegion(Region $parentRegion)
     {
@@ -135,6 +139,11 @@ class RegionItem extends AbstractEntity
     {
         $this->region = $region;
         return $this;
+    }
+
+    public function getInheritsChildren()
+    {
+        return $this->inheritsChildren;
     }
 
     /**

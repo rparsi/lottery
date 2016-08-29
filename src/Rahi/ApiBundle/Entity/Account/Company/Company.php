@@ -12,6 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
 use Rahi\ApiBundle\Entity\AbstractEntity;
 use Rahi\ApiBundle\Entity\IdTrait;
 use Rahi\ApiBundle\Entity\Locale\Address\Address;
@@ -52,7 +53,12 @@ class Company extends AbstractEntity
 
     /**
      * @var string
-     * @ORM\Column(type="string", length=100, name="name_")
+     * @ORM\Column(type="string", length=100, name="name_", unique=true)
+     * @Assert\NotBlank()
+     * @Assert\Length(
+     *     min=3,
+     *     max=100
+     * )
      */
     protected $name;
 
@@ -192,6 +198,17 @@ class Company extends AbstractEntity
     public function setStatus(CompanyStatus $status)
     {
         $this->status = $status;
+        return $this;
+    }
+
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name)
+    {
+        $this->name = $name;
         return $this;
     }
 

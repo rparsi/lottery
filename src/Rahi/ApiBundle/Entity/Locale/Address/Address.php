@@ -17,6 +17,7 @@ use Rahi\ApiBundle\Entity\IdTrait;
 use Rahi\ApiBundle\Entity\Locale\Country;
 use Rahi\ApiBundle\Entity\Locale\Province;
 use Rahi\ApiBundle\Entity\Locale\City;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="Rahi\ApiBundle\Entity\Repository\Locale\Address\AddressRepository")
@@ -33,25 +34,29 @@ class Address extends AbstractEntity
 
     /**
      * @var string
-     * @ORM\Column(type="string", length=100, name="name_")
-     *
-     * @JMS\Expose
+     * @ORM\Column(type="string", length=100, name="name_",  unique=true)
+     * @Assert\NotBlank()
+     * @Assert\Length(
+     *     min=3,
+     *     max=100
+     * )
      */
     protected $name;
 
     /**
      * @var string
      * @ORM\Column(type="string", length=255)
-     *
-     * @JMS\Expose
+     * @Assert\NotBlank()
+     * @Assert\Length(
+     *     min=3,
+     *     max=255
+     * )
      */
     protected $line1;
 
     /**
      * @var string
      * @ORM\Column(type="string", length=255, nullable=true)
-     *
-     * @JMS\Expose
      */
     protected $line2;
 
@@ -59,8 +64,6 @@ class Address extends AbstractEntity
      * @var AddressType
      * @ORM\ManyToOne(targetEntity="AddressType")
      * @ORM\JoinColumn(name="type_id", referencedColumnName="id", nullable=false)
-     *
-     * @JMS\Expose
      */
     protected $type;
 
@@ -68,8 +71,6 @@ class Address extends AbstractEntity
      * @var Country
      * @ORM\ManyToOne(targetEntity="Rahi\ApiBundle\Entity\Locale\Country")
      * @ORM\JoinColumn(name="country_id", referencedColumnName="id", nullable=false)
-     *
-     * @JMS\Expose
      */
     protected $country;
 
@@ -77,8 +78,6 @@ class Address extends AbstractEntity
      * @var Province
      * @ORM\ManyToOne(targetEntity="Rahi\ApiBundle\Entity\Locale\Province")
      * @ORM\JoinColumn(name="province_id", referencedColumnName="id", nullable=false)
-     *
-     * @JMS\Expose
      */
     protected $province;
 
@@ -86,16 +85,12 @@ class Address extends AbstractEntity
      * @var City
      * @ORM\ManyToOne(targetEntity="Rahi\ApiBundle\Entity\Locale\City")
      * @ORM\JoinColumn(name="city_id", referencedColumnName="id", nullable=false)
-     *
-     * @JMS\Expose
      */
     protected $city;
 
     /**
      * @var string
      * @ORM\Column(type="string", length=30, name="postal_code")
-     *
-     * @JMS\Expose
      */
     protected $postalCode;
 
@@ -257,5 +252,14 @@ class Address extends AbstractEntity
     public function getCity()
     {
         return $this->city;
+    }
+
+    /**
+     * @return bool
+     * @Assert\IsTrue(message = "line2 is invalid")
+     */
+    public function isLine2Valid() : bool
+    {
+        return is_null($this->line2) || (is_string($this->line2) && strlen($this->line2) <= 255);
     }
 }

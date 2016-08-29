@@ -14,6 +14,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Rahi\ApiBundle\Entity\AbstractEntity;
 use Rahi\ApiBundle\Entity\IdTrait;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="Rahi\ApiBundle\Entity\Repository\Locale\CityRepository")
@@ -30,9 +31,12 @@ class City extends AbstractEntity
 
     /**
      * @var string
-     * @ORM\Column(type="string", length=100, name="name_")
-     *
-     * @JMS\Expose
+     * @ORM\Column(type="string", length=100, name="name_", unique=true)
+     * @Assert\NotBlank()
+     * @Assert\Length(
+     *     min=3,
+     *     max=100
+     * )
      */
     protected $name;
 
@@ -41,8 +45,11 @@ class City extends AbstractEntity
      * Currently no ISO standards that I know of, and may need to create entity (ie CityType)
      * @var string
      * @ORM\Column(type="string", length=30)
-     *
-     * @JMS\Expose
+     * @Assert\NotBlank()
+     * @Assert\Length(
+     *     min=1,
+     *     max=30
+     * )
      */
     protected $category;
 
@@ -50,10 +57,30 @@ class City extends AbstractEntity
      * @var Province
      * @ORM\ManyToOne(targetEntity="Province", inversedBy="cities")
      * @ORM\JoinColumn(name="province_id", referencedColumnName="id", nullable=false)
-     *
-     * @JMS\Expose
      */
     protected $province;
+
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name)
+    {
+        $this->name = $name;
+        return $this;
+    }
+
+    public function getCategory()
+    {
+        return $this->category;
+    }
+
+    public function setCategory(string $category)
+    {
+        $this->category = $category;
+        return $this;
+    }
 
     public function setProvince(Province $province)
     {

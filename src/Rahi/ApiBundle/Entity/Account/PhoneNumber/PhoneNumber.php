@@ -14,6 +14,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Rahi\ApiBundle\Entity\AbstractEntity;
 use Rahi\ApiBundle\Entity\IdTrait;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="Rahi\ApiBundle\Entity\Repository\Account\PhoneNumber\PhoneNumberRepository")
@@ -30,9 +31,12 @@ class PhoneNumber extends AbstractEntity
 
     /**
      * @var string
-     * @ORM\Column(type="string", length=100, name="name_")
-     *
-     * @JMS\Expose
+     * @ORM\Column(type="string", length=100, name="name_", unique=true)
+     * @Assert\NotBlank()
+     * @Assert\Length(
+     *     min=3,
+     *     max=100
+     * )
      */
     protected $name;
 
@@ -40,16 +44,20 @@ class PhoneNumber extends AbstractEntity
      * May need to add association to a locale
      * @var string
      * @ORM\Column(type="string", length=10, name="country_code")
-     *
-     * @JMS\Expose
+     * @Assert\NotBlank()
+     * @Assert\Length(
+     *     min=1,
+     *     max=10
+     * )
      */
     protected $countryCode;
 
     /**
      * @var integer
      * @ORM\Column(type="integer", name="area_code", options={"unsigned": true})
-     *
-     * @JMS\Expose
+     * @Assert\Type(
+     *     type="integer"
+     * )
      */
     protected $areaCode;
 
@@ -57,16 +65,13 @@ class PhoneNumber extends AbstractEntity
      * ie 456-7890
      * @var string
      * @ORM\Column(type="string", name="number_", length=30)
-     *
-     * @JMS\Expose
+     * @Assert\NotBlank()
      */
     protected $number;
 
     /**
      * @var string
-     * @ORM\Column(type="string", name="extension", length=30)
-     *
-     * @JMS\Expose
+     * @ORM\Column(type="string", name="extension", length=30, nullable=true)
      */
     protected $extension;
 
@@ -74,10 +79,52 @@ class PhoneNumber extends AbstractEntity
      * @var PhoneNumberType
      * @ORM\ManyToOne(targetEntity="PhoneNumberType")
      * @ORM\JoinColumn(name="type_id", referencedColumnName="id")
-     *
-     * @JMS\Expose
      */
     protected $type;
+
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name)
+    {
+        $this->name = $name;
+        return $this;
+    }
+
+    public function getCountryCode()
+    {
+        return $this->countryCode;
+    }
+
+    public function setCountryCode(string $countryCode)
+    {
+        $this->countryCode = $countryCode;
+        return $this;
+    }
+
+    public function getAreaCode()
+    {
+        return $this->areaCode;
+    }
+
+    public function setAreaCode(int $areaCode)
+    {
+        $this->areaCode = $areaCode;
+        return $this;
+    }
+
+    public function getNumber()
+    {
+        return $this->number;
+    }
+
+    public function setNumber(string $number)
+    {
+        $this->number = $number;
+        return $this;
+    }
 
     /**
      * @param PhoneNumberType $type

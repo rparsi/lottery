@@ -14,6 +14,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Rahi\ApiBundle\Entity\AbstractEntity;
 use Rahi\ApiBundle\Entity\IdTrait;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="Rahi\ApiBundle\Entity\Repository\Locale\ProvinceRepository")
@@ -30,9 +31,12 @@ class Province extends AbstractEntity
 
     /**
      * @var string
-     * @ORM\Column(type="string", length=100, name="name_")
-     *
-     * @JMS\Expose
+     * @ORM\Column(type="string", length=100, name="name_", unique=true)
+     * @Assert\NotBlank()
+     * @Assert\Length(
+     *     min=3,
+     *     max=100
+     * )
      */
     protected $name;
 
@@ -40,8 +44,11 @@ class Province extends AbstractEntity
      * For example refer to https://en.wikipedia.org/wiki/ISO_3166-2:CA
      * @var string
      * @ORM\Column(type="string", length=10, name="iso_code")
-     *
-     * @JMS\Expose
+     * @Assert\NotBlank()
+     * @Assert\Length(
+     *     min=1,
+     *     max=10
+     * )
      */
     protected $isoCode;
 
@@ -49,8 +56,11 @@ class Province extends AbstractEntity
      * The subdivision category, ie 'province' or 'territory' for Canada
      * @var string
      * @ORM\Column(type="string", length=30)
-     *
-     * @JMS\Expose
+     * @Assert\NotBlank()
+     * @Assert\Length(
+     *     min=1,
+     *     max=30
+     * )
      */
     protected $category;
 
@@ -58,22 +68,29 @@ class Province extends AbstractEntity
      * @var Country
      * @ORM\ManyToOne(targetEntity="Country", inversedBy="provinces")
      * @ORM\JoinColumn(name="country_id", referencedColumnName="id", nullable=false)
-     *
-     * @JMS\Expose
      */
     protected $country;
 
     /**
      * @var ArrayCollection
      * @ORM\OneToMany(targetEntity="City", mappedBy="province", indexBy="id")
-     *
-     * @JMS\Expose
      */
     protected $cities;
 
     public function __construct()
     {
         $this->cities = new ArrayCollection();
+    }
+
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name)
+    {
+        $this->name = $name;
+        return $this;
     }
 
     public function setCountry(Country $country)

@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use Rahi\ApiBundle\Entity\Account\Company\CompanyType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -10,14 +11,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 class DefaultController extends AbstractAppController
 {
-    public function indexAction(Request $request)
-    {
-        // replace this example code with whatever you need
-        return $this->render('default/index.html.twig', [
-            'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..'),
-        ]);
-    }
-
     /**
      * @Route("/", name="home")
      */
@@ -35,6 +28,8 @@ class DefaultController extends AbstractAppController
 
     /**
      * @Route("/jsontest", name="jsontest")
+     * @param Request $request
+     * @return Response
      */
     public function jsonTestAction(Request $request)
     {
@@ -44,6 +39,8 @@ class DefaultController extends AbstractAppController
 
     /**
      * @Route("/emailtest", name="emailtest")
+     * @param Request $request
+     * @return Response
      */
     public function emailTestAction(Request $request)
     {
@@ -75,13 +72,26 @@ class DefaultController extends AbstractAppController
 
     /**
      * @Route("/datatest", name="datatest")
+     * @param Request $request
+     * @return JsonResponse
      */
     public function dataTestAction(Request $request)
     {
         $em = $this->getEntityManager();
         $repository = $em->getRepository('RahiApiBundle:Account\Company\CompanyType');
         $companyTypes = $repository->findAll();
-        return $this->createJsonResponse($companyTypes);
+
+        $data = [];
+        /** @var CompanyType $companyType */
+        foreach ($companyTypes as $companyType) {
+            $item = [
+                'id' => $companyType->getId(),
+                'name' => $companyType->getName(),
+                'slug' => $companyType->getSlug()
+            ];
+            $data[] = $item;
+        }
+        return $this->json($data);
     }
 
     /**

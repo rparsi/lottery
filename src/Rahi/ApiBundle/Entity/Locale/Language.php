@@ -14,6 +14,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Rahi\ApiBundle\Entity\AbstractEntity;
 use Rahi\ApiBundle\Entity\IdTrait;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="Rahi\ApiBundle\Entity\Repository\Locale\LanguageRepository")
@@ -30,9 +31,12 @@ class Language extends AbstractEntity
 
     /**
      * @var string
-     * @ORM\Column(type="string", length=100, name="name_")
-     *
-     * @JMS\Expose
+     * @ORM\Column(type="string", length=100, name="name_", unique=true)
+     * @Assert\NotBlank()
+     * @Assert\Length(
+     *     min=3,
+     *     max=100
+     * )
      */
     protected $name;
 
@@ -40,22 +44,34 @@ class Language extends AbstractEntity
      * Refer to https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes
      * @var string
      * @ORM\Column(type="string", length=10, name="iso_code")
-     *
-     * @JMS\Expose
+     * @Assert\NotBlank()
+     * @Assert\Length(
+     *     min=1,
+     *     max=10
+     * )
      */
     protected $isoCode;
 
     /**
      * @var ArrayCollection
      * @ORM\OneToMany(targetEntity="Locale", mappedBy="language", indexBy="id")
-     *
-     * @JMS\Expose
      */
     protected $locales;
 
     public function __construct()
     {
         $this->locales = new ArrayCollection();
+    }
+
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name)
+    {
+        $this->name = $name;
+        return $this;
     }
 
     public function addLocale(Locale $locale)

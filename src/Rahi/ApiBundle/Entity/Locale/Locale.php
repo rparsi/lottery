@@ -14,6 +14,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Rahi\ApiBundle\Entity\AbstractEntity;
 use Rahi\ApiBundle\Entity\IdTrait;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="Rahi\ApiBundle\Entity\Repository\Locale\LocaleRepository")
@@ -36,9 +37,12 @@ class Locale extends AbstractEntity
 
     /**
      * @var string
-     * @ORM\Column(type="string", length=100, name="name_")
-     *
-     * @JMS\Expose
+     * @ORM\Column(type="string", length=100, name="name_", unique=true)
+     * @Assert\NotBlank()
+     * @Assert\Length(
+     *     min=3,
+     *     max=100
+     * )
      */
     protected $name;
 
@@ -47,8 +51,11 @@ class Locale extends AbstractEntity
      * Refer to "Translations" section in http://symfony.com/doc/current/book/translation.html
      * @var string
      * @ORM\Column(type="string", length=10, name="iso_code")
-     *
-     * @JMS\Expose
+     * @Assert\NotBlank()
+     * @Assert\Length(
+     *     min=1,
+     *     max=10
+     * )
      */
     protected $isoCode;
 
@@ -56,8 +63,6 @@ class Locale extends AbstractEntity
      * @var Language
      * @ORM\ManyToOne(targetEntity="Language", inversedBy="locales")
      * @ORM\JoinColumn(name="language_id", referencedColumnName="id", nullable=false)
-     *
-     * @JMS\Expose
      */
     protected $language;
 
@@ -66,10 +71,19 @@ class Locale extends AbstractEntity
      * @var Country
      * @ORM\ManyToOne(targetEntity="Country", inversedBy="locales")
      * @ORM\JoinColumn(name="country_id", referencedColumnName="id", nullable=false)
-     *
-     * @JMS\Expose
      */
     protected $country;
+
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name)
+    {
+        $this->name = $name;
+        return $this;
+    }
 
     public function setLanguage(Language $language)
     {

@@ -14,6 +14,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Rahi\ApiBundle\Entity\AbstractEntity;
 use Rahi\ApiBundle\Entity\IdTrait;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="Rahi\ApiBundle\Entity\Repository\Locale\TimezoneRepository")
@@ -30,9 +31,12 @@ class Timezone extends AbstractEntity
 
     /**
      * @var string
-     * @ORM\Column(type="string", length=100, name="name_")
-     *
-     * @JMS\Expose
+     * @ORM\Column(type="string", length=100, name="name_", unique=true)
+     * @Assert\NotBlank()
+     * @Assert\Length(
+     *     min=3,
+     *     max=100
+     * )
      */
     protected $name;
 
@@ -42,8 +46,9 @@ class Timezone extends AbstractEntity
      * http://www.timeanddate.com/time/zones/
      * @var integer
      * @ORM\Column(type="integer", name="utc_hours_offset")
-     *
-     * @JMS\Expose
+     * @Assert\Type(
+     *     type="integer"
+     * )
      */
     protected $utcHoursOffset;
 
@@ -51,8 +56,11 @@ class Timezone extends AbstractEntity
      * Refer to http://php.net/manual/en/timezones.america.php
      * @var string
      * @ORM\Column(type="string", length=100, name="php_timezone")
-     *
-     * @JMS\Expose
+     * @Assert\NotBlank()
+     * @Assert\Length(
+     *     min=3,
+     *     max=100
+     * )
      */
     protected $phpTimezone;
 
@@ -60,8 +68,17 @@ class Timezone extends AbstractEntity
      * Will eventually need to add association with Region or RegionItem
      * @var string
      * @ORM\Column(type="string", length=100)
-     *
-     * @JMS\Expose
      */
     protected $location;
+
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name)
+    {
+        $this->name = $name;
+        return $this;
+    }
 }
