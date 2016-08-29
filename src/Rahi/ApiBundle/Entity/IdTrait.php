@@ -17,8 +17,6 @@ trait IdTrait
      * @ORM\Column(type="integer", options={"unsigned": true})
      * @ORM\Id
      * @ORM\GeneratedValue
-     *
-     * @JMS\Expose
      */
     protected $id;
 

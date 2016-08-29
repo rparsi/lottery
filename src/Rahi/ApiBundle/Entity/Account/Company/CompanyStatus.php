@@ -20,7 +20,6 @@ use Rahi\ApiBundle\Entity\AbstractEntity;
  * Refer to https://florian.ec/articles/mysql-doctrine-utf8/
  * @ORM\Table(
  *      name="company_status",
- *      indexes={@ORM\Index(name="slug_idx", columns={"slug"})},
  *      options={"collate"="utf8mb4_unicode_ci", "charset"="utf8mb4"}
  * )
  *
