@@ -12,7 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
 use Rahi\ApiBundle\Entity\AbstractEntity;
 use Rahi\ApiBundle\Entity\Account\User;
-use Rahi\ApiBundle\Entity\IdTrait;
+use Rahi\ApiBundle\Entity\AutoIdTrait;
 
 /**
  * Class CompanyRep
@@ -25,7 +25,7 @@ use Rahi\ApiBundle\Entity\IdTrait;
  */
 class CompanyRep extends AbstractEntity
 {
-    use IdTrait;
+    use AutoIdTrait;
 
     /**
      * @var Company

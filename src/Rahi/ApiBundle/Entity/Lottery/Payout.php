@@ -6,7 +6,7 @@ namespace Rahi\ApiBundle\Entity\Lottery;
 
 use Doctrine\ORM\Mapping as ORM;
 use Rahi\ApiBundle\Entity\AbstractEntity;
-use Rahi\ApiBundle\Entity\IdTrait;
+use Rahi\ApiBundle\Entity\AutoIdTrait;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -21,7 +21,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Payout extends AbstractEntity
 {
-    use IdTrait;
+    use AutoIdTrait;
 
     /**
      * @var LotteryDraw

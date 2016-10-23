@@ -16,8 +16,14 @@ class RegistrationType extends AbstractType
         $builder->add('firstName');
         $builder->add('lastName');
         $builder->add('salutation');
-        $builder->add('isoLocale', LocaleType::class, ['label' => 'Locale']);
-        $builder->add('isoTimezone', TimezoneType::class, ['label' => 'Timezone']);
+        $builder->add('isoLocale', LocaleType::class, [
+            'label' => 'Locale',
+            'required' => false
+        ]);
+        $builder->add('isoTimezone', TimezoneType::class, [
+            'label' => 'Timezone',
+            'required' => false
+        ]);
     }
 
     public function getParent()

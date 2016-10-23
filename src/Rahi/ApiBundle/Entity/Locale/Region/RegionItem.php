@@ -13,7 +13,7 @@ use JMS\Serializer\Annotation as JMS;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Rahi\ApiBundle\Entity\AbstractEntity;
-use Rahi\ApiBundle\Entity\IdTrait;
+use Rahi\ApiBundle\Entity\AutoIdTrait;
 use Rahi\ApiBundle\Entity\Locale\Country;
 use Rahi\ApiBundle\Entity\Locale\Province;
 use Rahi\ApiBundle\Entity\Locale\City;
@@ -30,7 +30,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class RegionItem extends AbstractEntity
 {
-    use IdTrait;
+    use AutoIdTrait;
 
     /**
      * @var string

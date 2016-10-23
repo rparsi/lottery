@@ -8,7 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Rahi\ApiBundle\Entity\AbstractEntity;
-use Rahi\ApiBundle\Entity\IdTrait;
+use Rahi\ApiBundle\Entity\AutoIdTrait;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -23,7 +23,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class LotteryDraw extends AbstractEntity
 {
-    use IdTrait;
+    use AutoIdTrait;
 
     /**
      * @var LotteryType
@@ -45,12 +45,8 @@ class LotteryDraw extends AbstractEntity
     protected $payouts;
 
     /**
-     * @var Collection
-     * @ORM\ManyToMany(targetEntity="Number", indexBy="id", cascade={"persist"})
-     * @ORM\JoinTable(name="lottery_draw_winning_numbers",
-     *      joinColumns={@ORM\JoinColumn(name="lottery_draw_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="number_id", referencedColumnName="id", unique=true)}
-     * )
+     * @var Collection|WinningNumber[]
+     * @ORM\OneToMany(targetEntity="WinningNumber", mappedBy="lotteryDraw", indexBy="id", cascade={"persist"})
      */
     protected $winningNumbers;
 
@@ -116,13 +112,13 @@ class LotteryDraw extends AbstractEntity
         return $this;
     }
 
-    public function addWinningNumber(Number $number)
+    public function addWinningNumber(WinningNumber $number)
     {
         $this->winningNumbers[] = $number;
         return $this;
     }
 
-    public function removeWinningNumber(Number $number)
+    public function removeWinningNumber(WinningNumber $number)
     {
         $this->winningNumbers->removeElement($number);
         return $this;

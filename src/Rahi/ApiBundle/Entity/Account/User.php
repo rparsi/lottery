@@ -12,7 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
-use Rahi\ApiBundle\Entity\IdTrait;
+use Rahi\ApiBundle\Entity\AutoIdTrait;
 use Rahi\ApiBundle\Model;
 use FOS\UserBundle\Model\User as BaseUser;
 use Symfony\Component\Validator\Constraints as Assert;

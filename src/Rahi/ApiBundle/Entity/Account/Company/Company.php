@@ -14,7 +14,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 use Rahi\ApiBundle\Entity\AbstractEntity;
-use Rahi\ApiBundle\Entity\IdTrait;
+use Rahi\ApiBundle\Entity\AutoIdTrait;
 use Rahi\ApiBundle\Entity\Locale\Address\Address;
 use Rahi\ApiBundle\Entity\Account\User;
 use Rahi\ApiBundle\Entity\Account\PhoneNumber\PhoneNumber;
@@ -32,7 +32,7 @@ use Rahi\ApiBundle\Entity\Account\EmailAddress;
  */
 class Company extends AbstractEntity
 {
-    use IdTrait;
+    use AutoIdTrait;
 
     /**
      * @var ArrayCollection

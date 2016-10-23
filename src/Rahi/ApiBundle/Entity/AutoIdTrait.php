@@ -11,7 +11,7 @@ namespace Rahi\ApiBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
 
-trait IdTrait
+trait AutoIdTrait
 {
     /**
      * @ORM\Column(type="integer", options={"unsigned": true})

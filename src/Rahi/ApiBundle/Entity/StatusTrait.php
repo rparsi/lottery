@@ -13,7 +13,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 trait StatusTrait
 {
-    use IdTrait;
+    use AutoIdTrait;
 
     /**
      * @var string
