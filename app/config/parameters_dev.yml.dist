@@ -20,3 +20,5 @@ parameters:
     use_mailcatcher: true
     # misc
     email_sender:   noreply@rahi.lottery.com
+    jms_debug_override: none
+    secret: rahi2016$jBrGjMdNcRfAeG@s270api
