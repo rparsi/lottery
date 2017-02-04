@@ -15,8 +15,8 @@ parameters:
     mailer_transport: smtp
     mailer_host: localhost
     mailer_port: 1025
-    mailer_user: null
-    mailer_password: null
+    mailer_user: ~
+    mailer_password: ~
     use_mailcatcher: true
     # misc
     email_sender:   noreply@rahi.lottery.com

@@ -48,6 +48,13 @@ class User extends BaseUser
      */
     protected $id;
 
+    /**
+     * @var UserGroup
+     * @ORM\ManyToOne(targetEntity="Rahi\ApiBundle\Entity\Account\UserGroup")
+     * @ORM\JoinColumn(name="usergroup_id", referencedColumnName="id", nullable=false)
+     */
+    protected $userGroup;
+
     // FOSUserBundle 1.3.6 has the following properties, refer to https://github.com/FriendsOfSymfony/FOSUserBundle/blob/1.3.x/Model/User.php
     // Canonical fields get lowercased before comparison or search � to make sure there are no duplicates with the same value but with different case.
     /*
@@ -519,6 +526,24 @@ class User extends BaseUser
     public function setRepClientsOf(Collection $repClientsOf)
     {
         $this->repClientsOf = $repClientsOf;
+        return $this;
+    }
+
+    /**
+     * @return UserGroup
+     */
+    public function getUserGroup()
+    {
+        return $this->userGroup;
+    }
+
+    /**
+     * @param UserGroup $userGroup
+     * @return User
+     */
+    public function setUserGroup(UserGroup $userGroup)
+    {
+        $this->userGroup = $userGroup;
         return $this;
     }
 }

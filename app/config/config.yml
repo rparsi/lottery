@@ -81,7 +81,7 @@ doctrine_migrations:
 swiftmailer:
     transport: "%mailer_transport%"
     host:      "%mailer_host%"
-    port:      "@mailer_port%"
+    port:      "%mailer_port%"
     username:  "%mailer_user%"
     password:  "%mailer_password%"
     #spool:     { type: memory }
@@ -96,5 +96,6 @@ fos_user:
             from_email:
                 address: 'registration@rahi.lottery.com'
                 sender_name: 'customer.service'
+            #template: RahiApiBundle:Registration:email.txt.twig
         form:
             type: Rahi\ApiBundle\Form\RegistrationType

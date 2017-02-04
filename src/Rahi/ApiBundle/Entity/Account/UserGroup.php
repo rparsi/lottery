@@ -5,7 +5,6 @@ namespace Rahi\ApiBundle\Entity\Account;
 
 use Doctrine\ORM\Mapping as ORM;
 use Rahi\ApiBundle\Entity\AbstractEntity;
-use Rahi\ApiBundle\Entity\AutoIdTrait;
 use Rahi\ApiBundle\Entity\TypeTrait;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -29,6 +28,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 class UserGroup extends AbstractEntity
 {
     use TypeTrait;
+
+    const SLUG_ADMIN = 'admin';
+    const SLUG_STANDARD = 'standard';
 
     /**
      * @var string
@@ -82,7 +84,7 @@ class UserGroup extends AbstractEntity
     /**
      * @return string
      */
-    public function getDescription(): string
+    public function getDescription()
     {
         return $this->description;
     }

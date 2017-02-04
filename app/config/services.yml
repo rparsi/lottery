@@ -18,6 +18,7 @@ services:
 
     app.event.user_registration:
         class: Rahi\ApiBundle\EventListener\RegistrationListener
+        arguments: ["@doctrine.orm.entity_manager"]
         tags:
             - { name: kernel.event_subscriber }
 
