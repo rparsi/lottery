@@ -90,6 +90,9 @@ fos_user:
     db_driver: orm # other valid values are 'mongodb', 'couchdb' and 'propel'
     firewall_name: main
     user_class: Rahi\ApiBundle\Entity\Account\User
+    from_email:
+        address: 'admin@rahi.lottery.com'
+        sender_name: 'admin'
     registration:
         confirmation:
             enabled: true
