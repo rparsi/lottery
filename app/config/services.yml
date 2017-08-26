@@ -23,9 +23,13 @@ services:
             - { name: kernel.event_subscriber }
 
     jms_serializer.factory:
-      class: AppBundle\Service\JMSSerializerFactory
-      arguments: ["%kernel.debug%", "%kernel.root_dir%/../var/jms", "%kernel.root_dir%/../vendor/jms/serializer/src", "%jms_debug_override%"]
+        class: AppBundle\Service\JMSSerializerFactory
+        arguments: ["%kernel.debug%", "%kernel.root_dir%/../var/jms", "%kernel.root_dir%/../vendor/jms/serializer/src", "%jms_debug_override%"]
 
     jms_serializer:
-      class: Serializer
-      factory: ["@jms_serializer.factory", create]
+        class: Serializer
+        factory: ["@jms_serializer.factory", create]
+
+    api.security.routebuilder:
+        class: ApiBundle\Service\Security\RouteBuilder
+        arguments: ["%router%"]
