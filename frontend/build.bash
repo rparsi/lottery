@@ -1,7 +1,9 @@
 #!/bin/bash
 
-if [ ! -f "./app/jspm_packages/system.js" ]; then
-    jspm install
+if [ ! -f "./package.json" ]; then
+    ./setup.bash
 fi
 
-jspm bundle-sfx ./app/ApiConsoleView ../web/js/build/apiConsole.js
+if [ ! -f "./jspm" ]; then
+    ln -s ./node_modules/jspm/jspm.js ./jspm
+fi

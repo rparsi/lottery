@@ -14,6 +14,17 @@ const extractCommons = new webpack.optimize.CommonsChunkPlugin({
     filename: 'commons.js'
 });
 
+const extractJQuery = new webpack.ProvidePlugin({
+    $: "jquery"
+});
+
+const extractVendors = new webpack.optimize.CommonsChunkPlugin({
+    name: 'vendor',
+    chunks: ['jquery', 'bootstrap', 'react'],
+    filename: 'vendor.bundle.js'
+});
+
+
 const config = {
     context: codeDirectory,
     // Instructs webpack to compile our entry point frontend/src/app.js into our
@@ -22,11 +33,13 @@ const config = {
     // ES6 is shorthand form of ES2015
     // ES6 code gets transpiled to ES5 as browser compatibility is not universal yet
     entry: {
+        vendor: ['jquery', 'bootstrap', 'react'],
         app: './app.js' // points to frontend/src/app.js
     },
     output: {
         path: distDirectory, // should point to web/js/dist
-        filename: '[name].bundle.js' // thus we should get web/js/dist/app.bundle.js
+        filename: '[name].bundle.js', // thus we should get web/js/dist/app.bundle.js
+        chunkFilename: '[name].bundle.js'
     },
     module: {
         rules: [{
@@ -43,7 +56,9 @@ const config = {
         }]
     },
     plugins: [
-        extractCommons
+        extractCommons,
+        extractJQuery,
+        extractVendors
     ]
 };
 

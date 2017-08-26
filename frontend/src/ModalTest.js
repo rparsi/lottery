@@ -1,6 +1,6 @@
 import $ from 'jquery';
 
-export default class Modaltest {
+export default class ModalTest {
     constructor () {
 
     }

@@ -31,5 +31,5 @@ services:
         factory: ["@jms_serializer.factory", create]
 
     api.security.routebuilder:
-        class: ApiBundle\Service\Security\RouteBuilder
-        arguments: ["%router%"]
+        class: Rahi\ApiBundle\Service\Security\RouteBuilder
+        arguments: ["@router"]

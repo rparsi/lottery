@@ -1,5 +1,5 @@
 import $ from 'jquery';
-import ModalTest from 'Modaltest';
+import ModalTest from './ModalTest';
 
 $(document).ready(function () {
     let modalTest = new ModalTest();
